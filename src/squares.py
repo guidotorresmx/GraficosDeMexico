@@ -1,23 +1,21 @@
-import pandas as pd
-import requests
-import json
-from IPython.display import HTML, display
-import random
-import geopandas as gpd
-import random
+import os
 import matplotlib
-import numpy as np
 import matplotlib.pyplot as plt
-import squarify  #ver instalación
+import squarify     # ver instalación
 
 
-mexico.sort_values(by=["data"], inplace = True, ascending = False)
-cmap = matplotlib.cm.Blues
-mini=min(mexico["data"])
-maxi=max(mexico["data"])
-norm = matplotlib.colors.Normalize(vmin = mini, vmax = maxi)
-colors = [cmap(norm(value)) for value in mexico["data"]]
+def squares(data):
+    data.sort_values(by=["data"], inplace=True, ascending=False)
+    cmap = matplotlib.cm.Blues
+    mini = min(data["data"])
+    maxi = max(data["data"])
+    norm = matplotlib.colors.Normalize(vmin=mini, vmax=maxi)
+    colors = [cmap(norm(value)) for value in data["data"]]
 
-squarify.plot(sizes=mexico["data"], label=mexico["id"], color = colors)
-plt.axis('off')
-plt.show()
+    fig, ax = plt.subplots()
+    squarify.plot(ax=ax, sizes=data.loc[data["data"] != 0]["data"],
+                  label=data["name"],
+                  color=colors
+                  )
+    plt.axis('off')
+    fig.savefig(os.path.join("..", "output", "cuadros.svg"))

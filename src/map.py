@@ -1,15 +1,24 @@
 import os
 import geopandas as gpd
 import numpy as np
+from matplotlib import pyplot as plt
 
 
-def map(data, geoFile="estados_mexico.json"):
-    data = {'CX': 3, 'JC': 1}
+def map(ipsData, geoFile="estados_mexico.json"):
+    ipsData = {'CX': 3, 'JC': 1}
     geoFilePath = os.path.join("..", "data", geoFile)
-    mexico = gpd.read_file(geoFilePath)
-    mexico["data"] = np.zeros((32, 1))
-    for key, value in data.items():
-        print(key)
-        print(value)
-        mexico.loc[mexico["id"] == key, "data"] = value
-    return mexico
+    data = gpd.read_file(geoFilePath)
+    data["data"] = np.zeros((32, 1))
+    for key, value in ipsData.items():
+        data.loc[data["id"] == key, "data"] = value
+
+    fig, ax = plt.subplots()
+    data.plot(ax=ax,
+              column="data",
+              cmap="Blues",
+              edgecolor='black',
+              linewidth=.1
+              )
+    plt.axis('off')
+    fig.savefig(os.path.join("..", "output", "mapa.svg"))
+    return data
