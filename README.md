@@ -16,3 +16,4 @@ cred.json sólo contiene una API_KEY con el formato:
   titulos del mapa
   agregar dataset
   verificar equivalencias.json
+  cartogram
