@@ -8,7 +8,7 @@ def main():
     IPs = getIPs()
     GeoData = getGeo(IPs)
 
-    data = map(GeoData)
+    data = map(GeoData, geografia="municipios")
     squares(data)
 
 
